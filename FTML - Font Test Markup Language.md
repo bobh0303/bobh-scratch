@@ -1,12 +1,8 @@
-Font Test Markup Language
+# Font Test Markup Language
 
 Martin Hosken, Bob Hallissy, and the Font Tools team
 
 [[TOC]]
-
-# Background Discussion
-
-See [XML formats for test data](https://docs.google.com/document/d/11RUdtIYSO54di5wwrGzVkVc_B86OssQucRta6AKBY94)
 
 # File Format
 
@@ -191,228 +187,29 @@ To facilitate version control, the following canonicalization of the layout of t
 * Colour values are represented using lower case hex digits.
 
 ## Example
-
+```
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?xml-stylesheet type="text/xsl" href="TestStyleSheet.xsl"?>
-
 <ftml version="1.0">
-
   <head>
-
     <fontscale>150</fontscale>
-
     <fontsrc>local(Padauk), url(Padauk.ttf)</fontsrc>
-
     <styles>
-
       <style feats="’hsln’ 1" lang="kht" name="other"/>
-
     </styles>
-
     <widths comment="30%" label="6em" string="70%"/>
-
   </head>
-
   <testgroup label="main">
-
     <test label="padauk3">
-
       <comment>changed features</comment>
-
       <string>သင်္ချိုင်း</string>
-
     </test>
-
     <test label="test1" stylename="other">
-
       <string>ကှု</string>
-
     </test>
-
   </testgroup>
-
 </ftml>
-
-# Tools
-
-This section examines the kinds of tools we are going to need to support this file format:
-
-## Validation
-
-Some sort of validation tool would be helpful, whether based on DTD or some [XML schema](http://en.wikipedia.org/wiki/XML_schema#XML_schema_languages). Validation and canonicalizing could be part of a single tool, say ftmllint.
-
-## Generation tools
-
-### Text to ftml
-
-This converts a plain text file consisting of one test string per line into a ftml file.
-
-### ftml canonicaliser
-
-This takes an ftml file and outputs a ftml file in canonical form. May want to combine with validation (ftmllint ?)
-
-## Formatting tools
-
-### HTML XSLT
-
-This XSLT transform will transform a ftml file into an appropriately laid out default HTML file for basic test viewing and text copying.
-
-### ODTXML XSLT
-
-A transform to create an ODT XML file from a ftml file for opening in LibreOffice. Probably in XSLT, but not required.
-
-### FTML to TeX
-
-A converter is needed to typeset ftml files using XeTeX. This would be used as part of smith.
-
-## HTML Equivalents
-
-It is important for the XML schema to define a structure that reasonably mirrors HTML standards, so that the transformation is simple and ideally round trip-able (although that is not a pure requirement).
-
-For this purpose, in the <head> element:
-
-* if <title> is present, it should be used as the HTML <title> element. Otherwise clients should make up a suitable title, perhaps from the file name.
-
-* The <comment> element should be used for HTML <description> 
-
-The following example uses HTML5 syntax and includes support for these. It does not illustrate the **rtl** attribute nor shows how that would be expressed in HTML/CSS. Nor does it try to make the HTML+CSS version pretty - only functional.
-
-### Source
-
-<?xml version="1.0" encoding="UTF-8"?>
-
-<?xml-stylesheet type="text/xsl" href="TestStyleSheet.xsl"?>
-
-<ftml version="1.0">
-
-  <head>
-
-    <comment>This is the file description</comment>
-
-    <fontscale>150</fontscale>
-
-    <fontsrc>local(Padauk), url(Padauk.ttf)</fontsrc>
-
-    <styles>
-
-      <style feats="’hsln’ 1" lang="kht" name="other"/>
-
-    </styles>
-
-    <title>This is the title element for this file</title>
-
-    <widths comment="30%" label="6em" string="70%"/>
-
-  </head>
-
-  <testgroup label="main">
-
-    <test background="#CCCCCC" label="padauk3">
-
-      <comment>changed features</comment>
-
-      <string>သင်္ချိုင်း</string>
-
-    </test>
-
-    <test label="test1" stylename="other">
-
-      <string>ကှု</string>
-
-    </test>
-
-  </testgroup>
-
-</ftml>
-
-### Simple
-
-<!DOCTYPE html>
-
-<html>
-
-  <head>
-
-    <title>This is the title element for this file</title>
-
-    <meta charset="utf-8">
-
-    <meta name="description" content="This is the file description">
-
-    <style>
-
-      @font-face { font-family: TestFont; src: local(Padauk), url(Padauk.ttf); }
-
-      table { width: 100%; table-layout: fixed; }
-
-      col.label { width: 6em; }
-
-      col.string { width: 70%; font-family: TestFont; font-size: 150%}
-
-      col.comment { width: 30%; }
-
-      .other { font-feature-settings: ‘hsln’ 1; }
-
-    </style>
-
-  </head>
-
-  <body>
-
-      <h1>main</h1>
-
-      <table>
-
-        <thead>
-
-          <tr>
-
-            <th>label</th>
-
-            <th>string</th>
-
-            <th>comment</th>
-
-          </tr>
-
-        </thead>
-
-        <tbody>
-
-          <tr style="background-color: #CCCCCC;">
-
-            <td>padauk3</td>
-
-            <td lang="kht" >သင်္ချိုင်း</td>
-
-            <td>changed features</td>
-
-          </tr>
-
-          <tr>
-
-            <td>test1</td>
-
-            <td class="other" lang="kht">ကှု</td>
-
-            <td></td>
-
-          </tr>
-
-        </tbody>
-
-      </table>
-
-  </body>
-
-  
-
-</html>
-
-### Alternative
-
-(coming soon. Or maybe not so soon ;-)
+```
 
 # Document Change History
 
@@ -456,7 +253,7 @@ The following example uses HTML5 syntax and includes support for these. It does 
 
 * Element descriptions more consistent in describing what they can contain.
 
-* Refined definition of lang attribute to refer to [BCP ](http://www.ietf.org/rfc/bcp/bcp47.txt)[47](http://www.ietf.org/rfc/bcp/bcp47.txt).
+* Refined definition of lang attribute to refer to [BCP](http://www.ietf.org/rfc/bcp/bcp47.txt).
 
 * For purposes of canonicalization, added concept of "inline elements" that are to be kept on the same line as their parent. At this point the only such is <em>.
 
