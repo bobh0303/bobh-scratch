@@ -37,7 +37,7 @@ This specifies the relative scaling that should be applied to text in the given 
 #### fontsrc
 This specifies a font source that may be used to render the tests. This mechanism is not intended to meet all needs, especially for projects that have more than one weight or style of font, so ftml consumers are permitted to implement their own mechanism for font selection.
 
-The element has a text child which is in the same format as [`src:` parameter of the css `@font-face` attribute](http://www.w3.org/TR/css3-fonts/#src-desc). Although the `src:` parameter supports multiple font sources in the CSS standard, for the purposes of FTML it is recommended that only one be specified (unless there is a specific reason to include more than one) - the CSS standard allows for multiple ones for fall-back purposes which would rarely make sense in a testing environment. Note that some FTML processors will only look at the first item. 
+The element has a text child which is in the same format as [`src:` parameter of the css `@font-face` attribute](http://www.w3.org/TR/css3-fonts/#src-desc). Although the `src:` parameter supports multiple font sources in the CSS standard, for the purposes of FTML it is recommended that only one `src:` be specified (unless there is a specific reason to include more than one) - the CSS standard allows multiple `src:` for fall-back purposes which would rarely make sense in a testing environment. Note that some FTML processors will only see the first `src:`. 
 
 This element is optional.
 
@@ -55,7 +55,7 @@ Each **style** has a number of attributes:
 
 - **lang**	This is a language tag, in HTML (i.e. [BCP47](http://www.ietf.org/rfc/bcp/bcp47.txt)) format. This is optional.
 
-- **name**	This specifies the name of the style being defined. This is required.
+- **name**	This specifies the name of the style being defined. Because the name of the style can be used as CSS style indentifier, the attribute value must not include whitespace. This attribute is required.
 
 The **style** elements are optional.
 
@@ -126,7 +126,7 @@ To facilitate version control, the following canonicalization of the layout of t
    * **em**
 * With the exception of inline elements:
    * Indentation of child elements is 2 spaces and child elements start on the following line after the opening parent element. The closing tag for the parent is on a line after the last child element with the same indentation as the opening tag.
-   * Child elements are sorted by tag and then by order.
+   * Child elements are sorted by tag.
    * In the cases where multiple elements of the same tag may exist:
       * The **style** elements are sorted by their name attribute
       * The order of all others, including **testgroup** and **test** elements, and any unrecognized elements within the head element, is preserved
@@ -147,7 +147,7 @@ To facilitate version control, the following canonicalization of the layout of t
 <ftml version="1.0">
   <head>
     <fontscale>150</fontscale>
-    <fontsrc>local(Padauk), url(Padauk.ttf)</fontsrc>
+    <fontsrc>url(Padauk.ttf)</fontsrc>
     <styles>
       <style feats="’hsln’ 1" lang="kht" name="other"/>
     </styles>
@@ -166,6 +166,11 @@ To facilitate version control, the following canonicalization of the layout of t
 ```
 
 # Document Change History
+
+2017-03-17 BH
+* require **style** **name** attribute to be free of whitespace
+* convert to markdown
+* remove one of the two **fontsrc** values in the Example.
 
 2016-02-23 BH (after discussion with MH):
 * @class attribute changed to @stylename
