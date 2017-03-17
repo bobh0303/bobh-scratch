@@ -5,23 +5,18 @@ Martin Hosken, Bob Hallissy, and the Font Tools team
 [[TOC]]
 
 # File Format
-
 We will call the file format ftml.
 
 There are three main elements around which the file format is structured: 
 
 1. root and header
-
 2. test groups
-
 3. tests
 
 ## Header
-
 The root element is:
 
 ### ftml
-
 The ftml element has the following attributes:
 
 **version**	The version of the file format. This attribute is required and is currently "1.0".
@@ -29,21 +24,17 @@ The ftml element has the following attributes:
 The ftml element takes a required head element and one or more testgroup elements as direct children.
 
 ### head
-
 The head element contains shared information across all the tests in the file. The information held here gives concrete styling for use by presentation tools that have no other information to override the information stored here. This element is required. To allow for easy extensibility, applications are required to preserve all elements in the header even if they do not understand them. Additional optional elements added to the header do not require a version increase.
 
 The head element takes comment, fontscale, fontsrc, styles, title and widths elements as direct children.
 
 #### comment
-
 A comment element may be used within head to provide descriptive text about the whole ftml document. The text value of this element specifies the comment text. This element is optional and, if present, must not be empty.
 
 #### fontscale
-
 This specifies the relative scaling that should be applied to text in the given font when rendering with a typical Western font like Times. The text child of this element must contain a positive integer and will be interpreted as a percentage. This element is optional and the default scale is 100 percent.
 
 #### fontsrc
-
 This specifies a font source that may be used to render the tests. This mechanism is not intended to meet all needs, especially for projects that have more than one weight or style of font, so ftml consumers are permitted to implement their own mechanism for font selection.
 
 The element has a text child which is in the same format as [src](http://www.w3.org/TR/css3-fonts/#src-desc)[: parameter of the css ](http://www.w3.org/TR/css3-fonts/#src-desc)[@font-face ](http://www.w3.org/TR/css3-fonts/#src-desc)[attribute](http://www.w3.org/TR/css3-fonts/#src-desc). Although the src: parameter supports multiple font sources in the CSS standard, for the purposes of FTML it is recommended that only one be specified (unless there is a specific reason to include more than one) - the CSS standard allows for multiple ones for fall-back purposes which would rarely make sense in a testing environment. Note that some FTML processors will only look at the first item. 
@@ -51,7 +42,6 @@ The element has a text child which is in the same format as [src](http://www.w3.
 This element is optional.
 
 #### styles
-
 Different tests may be rendered using different styling. The primary concern here is the use of font feature information. The styles element contains a list of style elements that specify how text of a given style name should be rendered. 
 
 The styles element is optional since tests do not need to be associated with a style. If present, the
@@ -71,11 +61,9 @@ Each style has a number of attributes:
 The style elements are optional.
 
 #### title
-
 The title element may be used to provide a title for the ftml document. The element has a text child specifying the title text. This element is optional and, if present, must not be empty.
 
 #### widths
-
 This element describes table and column widths. Each width may be specified in absolute terms using a width followed by any of the following units of measurement: **em** specifies a width in terms of the font size; **in** which is an absolute width in inches. Alternatively a width may be a width weight, specified by a number followed by a **%**. The final width of the column is the spare space after all fixed width columns are calculated divided by the sum of all the weights and multiplied by the particular weight of the column.
 
 The attributes correspond to predefined identified columns:
@@ -93,13 +81,11 @@ The attributes correspond to predefined identified columns:
 Note that this element is merely a hint, an application is free to display tests however it wants. The element is optional and all attributes are optional.
 
 ## Test Groups
-
 Tests are grouped into one or more testgroup elements. No test may exist outside of a test group. If desired, test groups can be nested, though, until such time as a real use-case for deeper nesting is demonstrated, only one level of nesting is permitted (i.e. the outer test group and inner test group). 
 
 This specification does not attach semantic meaning to such nesting, and FTML consumers are free to utilize or display such nesting as they desire. One example use, and the one that initially drove the request, is to display tests from an inner group as columns in a table.
 
 ### testgroup
-
 A testgroup merely collects tests and other test groups. It has the following attributes:
 
 **background**	Specifies the default background colour for the entire testgroup. The colour is specified in the form #xxyyzz where x, y and z are hex digits and the value xx specifies the red value, yy the green value and zz the blue value. This attribute is optional.
@@ -109,15 +95,12 @@ A testgroup merely collects tests and other test groups. It has the following at
 A testgroup takes a single optional comment and zero or more test and (in the case of the outermost test group) testgroup elements as direct children. Empty testgroup elements may occur.
 
 #### comment
-
 A comment element may be used to provide descriptive information about a testgroup. The text child of this element specifies the comment text. This element is optional and, if present, must not be empty.
 
 ## Tests
-
 A test element contains the text data and parameters for a specific test.
 
 ### test
-
 The test element has the following attributes:
 
 **background**	Specifies the background colour for the test. The colour is specified in the form #xxyyzz where x, y and z are hex digits and the value xx specifies the red value, yy the green value and zz the blue value. This attribute is optional.
@@ -131,11 +114,9 @@ The test element has the following attributes:
 This element is optional. A test contains a single string element and an optional comment element.
 
 #### comment
-
 A comment element may be used to supply descriptive text for a test. The text value of this element specifies the comment text. This element is optional and, if present, must not be empty.
 
 #### string
-
 The string element contains the text data for the test. Optionally, string elements can have em subelements. The test data is defined to be the concatenation of the text children of the string and any em subelements. 
 
 Within the test data, the notation \u followed by 4, 5 or 6 hexadecimal digits is supported for representing the Unicode character that corresponds to that hexadecimal value. FTML processors must preserve \u notation except during processing needed for rendering. FTML producers need to be aware that there is no delimiter on this sequence (other than the maximum of 6 digits). Therefore if a character to be encoded using this notation is followed immediately by a character that could be interpreted as a hexadecimal digit, the producer should pad the digit sequence with leading zeros to bring its length to 6 digits.
@@ -145,45 +126,27 @@ NB: The string element is the only element in ftml that permits both text and su
 This element is required and may be empty.
 
 ##### em
-
 The em subelement of string identifies those portions of the test data that are the logical focus for the test. If em elements are present, test data outside of the em elements is considered context and FTML consumers might, for example, use colour to de-emphasize the context data. This element is optional.
 
 ## Canonicalization
-
 To facilitate version control, the following canonicalization of the layout of the XML is strongly encouraged.
 
 * All the attributes of an element shall be on the same line as the tag and be listed in alphabetical order of attribute name. Exception: in the XML initial [processing instructions](http://www.w3.org/TR/WD-xml-961114.html#sec2.5) the conventional order will be used.
-
 * Inline elements start and end on the same line as their parent and immediately adjacent to any sibling text children. The following are designated as inline elements:
-
-    * em
-
+   * <em>
 * With the exception of inline elements:
-
-    * Indentation of child elements is 2 chars and child elements start on the following line after the opening parent element. The closing tag for the parent is on a line after the last child element with the same indentation as the opening tag.
-
-    * Child elements are sorted by tag and then by order.
-
-    * In the cases where multiple elements of the same tag may exist:
-
-        * The style elements are sorted by their name attribute
-
-        * The order of all others, including testgroup and test elements, and any unrecognized elements within the head element, is preserved
-
+   * Indentation of child elements is 2 spaces and child elements start on the following line after the opening parent element. The closing tag for the parent is on a line after the last child element with the same indentation as the opening tag.
+   * Child elements are sorted by tag and then by order.
+   * In the cases where multiple elements of the same tag may exist:
+      * The style elements are sorted by their name attribute
+      * The order of all others, including <testgroup> and< test> elements, and any unrecognized elements within the head element, is preserved
 * There are no blank lines between elements.
-
 * text children occur immediately following the parent element. The closing tag immediately follows the last character of the text.
-
 * Text is stored in UTF-8 with no entities other than as required by xml (i.e. <& are stored as entities in text, and >&" are stored as entities in attributes).
-
 * Attributes use double quotes.
-
 * All optional empty elements must be removed if they have no attributes. Empty elements use the empty element tag with no space before />.
-
 * feats attributes have their various features sorted alphabetically by feature tag.
-
 * Empty attributes are not present.
-
 * Colour values are represented using lower case hex digits.
 
 ## Example
@@ -214,46 +177,28 @@ To facilitate version control, the following canonicalization of the layout of t
 # Document Change History
 
 2016-02-23 BH (after discussion with MH):
-
 * @class attribute changed to @stylename
-
     * During transition time it is acceptable for readers to accept either.
-
 * clarified rules for canonical form
-
 * changes to <columns> element:
-
     * tag changed to <widths>
-
     * added @table attribute
-
     * renamed @class to @stylename
-
     * presence/absence of attributes no longer determines which columns will be output
-
     * the element is now completely optional.
 
 2015-12-11 DLR minor changes for consistency
 
 2015-11-25 BH (after discussion with MH):
-
 * Added background attribute to <testgroup>, per DLR suggestion.
-
 * Added <title> and <comment> elements to <head>, per VG suggestion (but we’re using <comment> rather than <description>).
 
 2015-11-24 BH:
-
 * Include changes agreed to at Nov 15 FontTools meeting:
-
     * lang attribute remains part of <style>, not <test>
-
     * <testgroup> permits one level of nesting
-
     * added <em> elements to identify portion of test data that is in focus
-
 * Element descriptions more consistent in describing what they can contain.
-
 * Refined definition of lang attribute to refer to [BCP](http://www.ietf.org/rfc/bcp/bcp47.txt).
-
 * For purposes of canonicalization, added concept of "inline elements" that are to be kept on the same line as their parent. At this point the only such is <em>.
 
