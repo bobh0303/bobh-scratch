@@ -176,7 +176,7 @@ To facilitate version control, the following canonicalization of the layout of t
 * @class attribute changed to @stylename
     * During transition time it is acceptable for readers to accept either.
 * clarified rules for canonical form
-* changes to **columns**> element:
+* changes to **columns** element:
     * tag changed to **widths**
     * added @table attribute
     * renamed @class to @stylename
