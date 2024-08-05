@@ -4,3 +4,4 @@ testing new PAT
 testing ln
 2023-06 testing new PAT again
 2024-06 testing new PAT again
+2024-08 Let's test again like we did last summer
